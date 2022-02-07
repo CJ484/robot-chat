@@ -7,12 +7,13 @@ function App() {
     <div className="App">
       <h1>Robot Chatter</h1>
       <div className="chat">
-        <div className="chatbox-human">
-          <img src={person} alt="person"/>  
-        </div>
         <div className="chatbox-robot">
           <img src={robot2} alt="robot"/>
           <h4>How are you doing?</h4>
+        </div>
+        <div className="chatbox-human">
+          <h4>Hiya!</h4>  
+          <img src={person} alt="person"/>
         </div>
       </div>
     </div>

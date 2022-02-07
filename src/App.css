@@ -17,8 +17,7 @@ h1 {
 }
 
 .chatbox-human {
-  display: block;
-  
+  float: right;
 }
 
 img {
@@ -27,4 +26,8 @@ img {
   background-color: blue;
   border-radius: 70px;
   border: 3px solid black;
+}
+
+.chatbox-human, .chatbox-robot {
+  display: flex;
 }
