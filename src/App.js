@@ -12,6 +12,7 @@ function App() {
         </div>
         <div className="chatbox-robot">
           <img src={robot2} alt="robot"/>
+          <h4>How are you doing?</h4>
         </div>
       </div>
     </div>
