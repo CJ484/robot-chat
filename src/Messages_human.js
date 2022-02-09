@@ -24,4 +24,10 @@ export default class messages extends React.Component {
     getMessages = () => {
         const messagesDB = collection(db, 'messages')
     }
+
+    render() {
+        <div>
+            <h1>{this.getMessages}</h1>
+        </div>
+    };
 }
