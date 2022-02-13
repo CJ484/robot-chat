@@ -1,4 +1,13 @@
+:root {
+  --gradient-color: linear-gradient(180deg, blue, green);
+
+}
+
+html {
+  background-color: rgb(54, 48, 48);
+}
 .App {
+  background-color: aliceblue;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -30,4 +39,20 @@ img {
 
 .chatbox-human, .chatbox-robot {
   display: flex;
+}
+
+/* input field */
+
+input {
+  width: 80%;
+  height: 40px;
+  border: none;
+  background: linear-gradient(21deg, #10abff, #1beabd);
+  padding: 3px;
+  border-radius: 9999em;
+  color: black;
+}
+
+.btn {
+  width: 10%;
 }
