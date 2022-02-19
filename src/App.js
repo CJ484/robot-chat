@@ -55,9 +55,10 @@ export default class App extends React.Component {
 
   newDoc = async (said) => {
     await addDoc(collection(db, "messages"), { said });
+    this.ReceivedMessages();
   }
 
-  deleteItem = async id => {
+  deleteDoc = async id => {
     const messagesDB = collection(db, "messages");
     const messagesDoc = doc(messagesDB, id);
     await deleteDoc(messagesDoc);
@@ -68,20 +69,8 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1>Robot Chatter</h1>
-        <div className="chat">
-          <div className="chatbox-robot">
-            <img src={robot2} alt="robot" />
-            <h4>How are you doing?</h4>
-          </div>
-          <div className="chatbox-human">
-            <h4>
-              Hello!
-            </h4>
-            <img src={person} alt="person" />
-          </div>
-        </div>
-        <PhilsNewResponse messagesList={this.state.messagesList}/>
-        <InputBox />
+        <PhilsNewResponse messagesList={this.state.messagesList} deleteDoc={this.deleteDoc}/>
+        <InputBox newDoc={this.newDoc}/>
       </div>
     );
   }

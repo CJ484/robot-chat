@@ -32,32 +32,19 @@ export default class InputBox extends React.Component {
         newText: ''
     }
 
-    handleChange = x => {
+    handleChange = (x) => {
         this.setState({
             newText: x.target.value
         })
     }
 
-    handleSubmit = x => {
+    handleSubmit = (x) => {
         x.preventDefault();
-
-        const newTextObj = {
-            human: this.state.newText
-        }
-        
-        this.newDoc(this.state.newText);
-
+        this.props.newDoc(this.state.newText);
         this.setState({
             newText: ''
         })
-
     }
-
-    newDoc = async (said) => {
-        await addDoc(collection(db, "messages"), { said });
-    }
-
-
 
     render() {
         return (

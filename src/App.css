@@ -20,11 +20,6 @@ h1 {
   margin: auto;
 }
 
-.chat {
-  border: 2px solid rebeccapurple;
-  display: block;
-}
-
 .chatbox-human {
   align-items: center;
   float: right;
@@ -68,8 +63,17 @@ input {
 
 .parsedHuman {
   justify-content: flex-end;
+  align-items: center;
   display: flex;
   margin-top: 20px
+}
+
+.parsedHuman svg, .parsedHuman h4 {
+  padding: 5px;
+}
+
+.parsedHuman svg:hover {
+  cursor: pointer;
 }
 
 .chatbox-robot-flex {
