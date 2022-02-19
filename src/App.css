@@ -26,6 +26,7 @@ h1 {
 }
 
 .chatbox-human {
+  align-items: center;
   float: right;
 }
 
@@ -39,6 +40,7 @@ img {
 
 .chatbox-human, .chatbox-robot {
   display: flex;
+  margin-top: 20px;
 }
 
 /* input field */
@@ -55,4 +57,21 @@ input {
 
 .btn {
   width: 10%;
+}
+
+/* database chat */
+.flex-chat {
+  display: flex;
+  flex-direction: column;
+  border: 5px solid green;
+}
+
+.parsedHuman {
+  justify-content: flex-end;
+  display: flex;
+  margin-top: 20px
+}
+
+.chatbox-robot-flex {
+  float: left;
 }

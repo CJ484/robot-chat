@@ -6,7 +6,7 @@ import Messages from "./Messages_human";
 import PhilsNewResponse from "./PhilResponce";
 import React from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, AddDocs, doc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDBvgpVLYPsm7xBHwCIaBZCgg9I1S1lgdc",
@@ -53,6 +53,17 @@ export default class App extends React.Component {
     console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);
   };
 
+  newDoc = async (said) => {
+    await addDoc(collection(db, "messages"), { said });
+  }
+
+  deleteItem = async id => {
+    const messagesDB = collection(db, "messages");
+    const messagesDoc = doc(messagesDB, id);
+    await deleteDoc(messagesDoc);
+    this.ReceivedMessages();
+  }
+
   render() {
     return (
       <div className="App">
@@ -63,7 +74,9 @@ export default class App extends React.Component {
             <h4>How are you doing?</h4>
           </div>
           <div className="chatbox-human">
-            <h4>Hiya!</h4>
+            <h4>
+              Hello!
+            </h4>
             <img src={person} alt="person" />
           </div>
         </div>
