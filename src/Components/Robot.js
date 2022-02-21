@@ -17,5 +17,3 @@ export default class RandomPhrase extends React.Component {
         )
     }
 }
-
-function
