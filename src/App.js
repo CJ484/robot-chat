@@ -53,7 +53,23 @@ export default class App extends React.Component {
     console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);
   };
 
+  checkValue = () => {
+    const targetId =document.querySelector("input");
+    if (targetId.value == "") {
+      targetId.style.border = "2px solid red";
+      return true;
+    }
+    else {
+      targetId.style.border = "none"
+      return false;
+    }
+  }
+
   newDoc = async (said) => {
+    if (this.checkValue == true) {
+      alert("no text")
+      return
+    }
     await addDoc(collection(db, "messages"), { said });
     this.ReceivedMessages();
   }
