@@ -24,7 +24,8 @@ const db = getFirestore(app);
 
 export default class App extends React.Component {
   state = {
-    messagesList: []
+    messagesList: [],
+    validValue: false
   };
 
   componentDidMount() {
@@ -50,28 +51,36 @@ export default class App extends React.Component {
       messagesList: allmessages,
     });
 
-    console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);
+    // console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);  <== This was used to display what data was being pushed from the DataBase.
   };
 
   checkValue = () => {
     const targetId =document.querySelector("input");
     if (targetId.value == "") {
       targetId.style.border = "2px solid red";
-      return true;
+      alert("No Text Try Again")
+      return;
     }
     else {
       targetId.style.border = "none"
-      return false;
+      this.state.validValue = true;
+      return;
     }
+
+    //I have attempted my own version of a text value checker. To prevent blank values from being uploaded and taking up memory. 
+    //Every newDoc will detect if the input tag has a value. If a value has been detected, then it will change the validValue state to true
+    //where it will allow the newDoc() "if" statement to run its condition and add the new value to the DataBase. After it finishes uploading it will return its
+    //validValue to false. If not returned to false the empty field will be pushed to the cloud.
   }
 
   newDoc = async (said) => {
-    if (this.checkValue == true) {
-      alert("no text")
-      return
+    this.checkValue();
+    if (this.state.validValue == true) {
+      await addDoc(collection(db, "messages"), { said });
     }
-    await addDoc(collection(db, "messages"), { said });
+    this.state.validValue = false;
     this.ReceivedMessages();
+
   }
 
   deleteDoc = async id => {
