@@ -1,11 +1,14 @@
 import React from "react";
-import person from "./Images/person.png"
-import robot2 from "./Images/robot_2.png"
+import person from "../Images/person.png"
+import robot2 from "../Images/robot_2.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 
-const PhilsNewResponse = props => {
+//Installing npm install --save @fortawesome/free-solid-svg-icons
+//then importing the icon that is needed.
+
+const ChatBox = props => {
     const PhilsResponseTemplate = props.messagesList.map((response) => {
         return (
           <div className="parsedHuman">
@@ -27,4 +30,4 @@ const PhilsNewResponse = props => {
     );
 }
 
-export default PhilsNewResponse;
+export default ChatBox;

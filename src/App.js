@@ -1,9 +1,6 @@
-import person from "./Images/person.png";
-import robot2 from "./Images/robot_2.png";
 import "./App.css";
-import InputBox from "./Input";
-import Messages from "./Messages_human";
-import PhilsNewResponse from "./PhilResponce";
+import InputBox from "./Components/Input";
+import ChatBox from "./Components/ChatBox";
 import React from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
@@ -55,14 +52,16 @@ export default class App extends React.Component {
   };
 
   checkValue = () => {
-    const targetId =document.querySelector("input");
-    if (targetId.value == "") {
-      targetId.style.border = "2px solid red";
+    const inputTarget = document.querySelector("input");
+    const spanTarget = document.querySelector("span");
+    if (inputTarget.value == "") {
+      inputTarget.style.border = "4px solid red";
+      spanTarget.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
       alert("No Text Try Again")
       return;
     }
     else {
-      targetId.style.border = "none"
+      inputTarget.style.border = "none"
       this.state.validValue = true;
       return;
     }
@@ -94,7 +93,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1>Robot Chatter</h1>
-        <PhilsNewResponse messagesList={this.state.messagesList} deleteDoc={this.deleteDoc}/>
+        <ChatBox messagesList={this.state.messagesList} deleteDoc={this.deleteDoc}/>
         <InputBox newDoc={this.newDoc}/>
       </div>
     );

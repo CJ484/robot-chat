@@ -1,13 +1,6 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  AddDocdadas,
-  doc,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 
 // The following is a component that will take care of the user's typed input 
