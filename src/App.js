@@ -22,16 +22,18 @@ const db = getFirestore(app);
 export default class App extends React.Component {
   state = {
     messagesList: [],
-    validValue: false
+    validValue: false,
+    robotSaid: ["Test 1", "Test 2", "Test 3", "Test 4"],
+    robotList: []
   };
 
   componentDidMount() {
     this.ReceivedMessages();
+    this.phrases();
   }
 
   ReceivedMessages = async () => {
     const messagesDB = collection(db, "messages");
-
     const messagesSnapshot = await getDocs(messagesDB);
 
     const allmessages = [];
@@ -40,10 +42,8 @@ export default class App extends React.Component {
         id: doc.id,
         said: doc.data().said
       };
-
       allmessages.push(eachMessages);
     });
-
     this.setState({
       messagesList: allmessages,
     });
@@ -54,7 +54,7 @@ export default class App extends React.Component {
   checkValue = () => {
     const inputTarget = document.querySelector("input");
     const spanTarget = document.querySelector("span");
-    if (inputTarget.value == "") {
+    if (inputTarget.value === "") {
       inputTarget.style.border = "4px solid red";
       spanTarget.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
       alert("No Text Try Again")
@@ -74,12 +74,12 @@ export default class App extends React.Component {
 
   newDoc = async (said) => {
     this.checkValue();
-    if (this.state.validValue == true) {
+    if (this.state.validValue === true) {
       await addDoc(collection(db, "messages"), { said });
     }
     this.state.validValue = false;
     this.ReceivedMessages();
-
+    
   }
 
   deleteDoc = async id => {
@@ -89,11 +89,27 @@ export default class App extends React.Component {
     this.ReceivedMessages();
   }
 
+  // Random Robot Generator
+  getRandomInt = (max) => {
+    return Math.floor(Math.random() * max);
+  }
+
+  phrases = () => {
+    const holdStatements = [];
+    const eachStatements = {
+      robotStatement: this.state.robotSaid[this.getRandomInt(3)],
+    };
+    holdStatements.push(eachStatements);
+    this.setState({
+      robotList: holdStatements
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Robot Chatter</h1>
-        <ChatBox messagesList={this.state.messagesList} deleteDoc={this.deleteDoc}/>
+        <ChatBox messagesList={this.state.messagesList} deleteDoc={this.deleteDoc} autoResponse={this.state.robotList}/>
         <InputBox newDoc={this.newDoc}/>
       </div>
     );

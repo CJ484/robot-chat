@@ -4,7 +4,7 @@ import robot2 from "../Images/robot_2.png"
 
 export default class RandomPhrase extends React.Component {
     state = {
-        roborSays = ["Test 1", "Test 2", "Test 3", "Test 4"]
+        said = ["Test 1", "Test 2", "Test 3", "Test 4"]
     }
 
     getRandomInt = (max) => {
@@ -12,7 +12,7 @@ export default class RandomPhrase extends React.Component {
     }
 
     phrases = () => {
-        console.log(getRandomInt(3));
+        console.log(this.getRandomInt(3));
     }
 
     render() {
