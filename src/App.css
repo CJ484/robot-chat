@@ -63,7 +63,7 @@ img {
   padding: 5px;
 }
 
-.parsedHuman svg:hover {
+.parsedHuman svg:hover, .chatbox-robot svg:hover {
   cursor: pointer;
 }
 

@@ -29,7 +29,6 @@ export default class App extends React.Component {
 
   componentDidMount() {
     this.ReceivedMessages();
-    this.phrases();
   }
 
   ReceivedMessages = async () => {
@@ -37,18 +36,31 @@ export default class App extends React.Component {
     const messagesSnapshot = await getDocs(messagesDB);
 
     const allmessages = [];
+
+    // Using the test field, will determine what template should be used in order to retrieve the corresponding message
     messagesSnapshot.forEach((doc) => {
-      const eachMessages = {
-        id: doc.id,
-        said: doc.data().said
-      };
-      allmessages.push(eachMessages);
+      if (doc.data().test === true) {
+        const eachMessages = {
+          id: doc.id,
+          said: doc.data().said,
+          test: doc.data().test
+        };
+        allmessages.push(eachMessages);
+      } else {
+        const eachRobotMessages = {
+          id: doc.id,
+          robotStatement: doc.data().robotStatement,
+          test: doc.data().test
+        };
+        allmessages.push(eachRobotMessages);
+      }
     });
     this.setState({
       messagesList: allmessages,
     });
 
-    // console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);  <== This was used to display what data was being pushed from the DataBase.
+    // console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);  
+    // ^^^ This was used to display what data was being pushed from the DataBase. ^^^
   };
 
   checkValue = () => {
@@ -66,20 +78,26 @@ export default class App extends React.Component {
       return;
     }
 
-    //I have attempted my own version of a text value checker. To prevent blank values from being uploaded and taking up memory. 
-    //Every newDoc will detect if the input tag has a value. If a value has been detected, then it will change the validValue state to true
-    //where it will allow the newDoc() "if" statement to run its condition and add the new value to the DataBase. After it finishes uploading it will return its
-    //validValue to false. If not returned to false the empty field will be pushed to the cloud.
+    // I have attempted my own version of a text value checker. To prevent blank values from being uploaded and taking up memory. 
+    // Every newDoc will detect if the input tag has a value. If a value has been detected, then it will change the validValue state to true
+    // where it will allow the newDoc() "if" statement to run its condition and add the new value to the DataBase. After it finishes uploading it will return its
+    // validValue to false. If not returned to false the empty field will be pushed to the cloud.
   }
 
   newDoc = async (said) => {
+    const collectionData = collection(db, "messages");
     this.checkValue();
+    
+    // With every added doc from the user will return a test that shows that a human wrote the text and now the "robot"
     if (this.state.validValue === true) {
-      await addDoc(collection(db, "messages"), { said });
+      await addDoc(collectionData, {
+        said: said,
+        test: true
+      });
     }
     this.state.validValue = false;
+    this.phrases();
     this.ReceivedMessages();
-    
   }
 
   deleteDoc = async id => {
@@ -94,22 +112,20 @@ export default class App extends React.Component {
     return Math.floor(Math.random() * max);
   }
 
-  phrases = () => {
-    const holdStatements = [];
-    const eachStatements = {
-      robotStatement: this.state.robotSaid[this.getRandomInt(3)],
-    };
-    holdStatements.push(eachStatements);
-    this.setState({
-      robotList: holdStatements
-    })
+  phrases = async () => {
+    const robotStatement = this.state.robotSaid[this.getRandomInt(3)]
+    const collectionData = collection(db, "messages");
+    await addDoc(collectionData, {
+      robotStatement: robotStatement,
+      test: false
+    });
   }
 
   render() {
     return (
       <div className="App">
         <h1>Robot Chatter</h1>
-        <ChatBox messagesList={this.state.messagesList} deleteDoc={this.deleteDoc} autoResponse={this.state.robotList}/>
+        <ChatBox messagesList={this.state.messagesList} deleteDoc={this.deleteDoc}/>
         <InputBox newDoc={this.newDoc}/>
       </div>
     );

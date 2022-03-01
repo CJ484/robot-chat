@@ -5,40 +5,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 
-//Installing npm install --save @fortawesome/free-solid-svg-icons
-//then importing the icon that is needed.
+// Installing npm install --save @fortawesome/free-solid-svg-icons
+// then importing the icon that is needed.
 
 const ChatBox = props => {
 
-  const PhilsResponseTemplate = props.messagesList.map((response) => {
-    return (
-      <div className="parsedHuman">
+  const ChatBoxTemplate = props.messagesList.map((response) => {
+    if(response.test === true) {
+      return (
+        <div className="parsedHuman">
+              <FontAwesomeIcon icon={faCircleXmark} size="lg" onClick={() => props.deleteDoc(response.id)} />
+              <h4 key={response.id}>{response.said}</h4>
+              <img src={person} alt="yourself" />
+            </div>
+          );
+    } else {
+        return (
+          <div className="chatbox-robot">
+            <img src={robot2} alt="robot"/>
+            <h4 key={response.id}>{response.robotStatement}</h4>
             <FontAwesomeIcon icon={faCircleXmark} size="lg" onClick={() => props.deleteDoc(response.id)} />
-            <h4 key={response.id}>{response.said}</h4>
-            <img src={person} alt="yourself" />
           </div>
         );
+    }
       })
       
-    const AndroidResponseTemplate = props.autoResponse.map((response) => {
-      return (
-        <div className="chatbox-robot">
-          <img src={robot2} alt="robot"/>
-          <h4>{response.robotStatement}</h4>
-        </div>
-      );
-    })
+    // const AndroidResponseTemplate = props.messagesList.map((responseR) => {
+    // })
       
-    return (
-      <div className="flex-chat">
-        {/* <div className="chatbox-robot">
-          <img src={robot2} alt="robot" />
-          <h4>How are you doing?</h4>
-        </div> */}
-        {AndroidResponseTemplate}
-        {PhilsResponseTemplate}
-      </div>
-    );
+  return (
+    <div className="flex-chat">
+      {ChatBoxTemplate}
+    </div>
+  );
 }
 
 export default ChatBox;
