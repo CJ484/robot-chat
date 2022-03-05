@@ -30,9 +30,6 @@ const ChatBox = props => {
     }
       })
       
-    // const AndroidResponseTemplate = props.messagesList.map((responseR) => {
-    // })
-      
   return (
     <div className="flex-chat">
       {ChatBoxTemplate}

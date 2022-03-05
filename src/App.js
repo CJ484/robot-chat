@@ -43,20 +43,27 @@ export default class App extends React.Component {
         const eachMessages = {
           id: doc.id,
           said: doc.data().said,
-          test: doc.data().test
+          test: doc.data().test,
+          timePosted: doc.data().timePosted 
         };
         allmessages.push(eachMessages);
       } else {
         const eachRobotMessages = {
           id: doc.id,
           robotStatement: doc.data().robotStatement,
-          test: doc.data().test
+          test: doc.data().test,
+          timePosted: doc.data().timePosted
         };
         allmessages.push(eachRobotMessages);
       }
     });
+
+    const sortedMessages = allmessages.sort((a,b) => {
+      return a.timePosted.seconds - b.timePosted.seconds
+    });
+
     this.setState({
-      messagesList: allmessages,
+      messagesList: sortedMessages,
     });
 
     // console.log("After your data has been pulled. This is whats in the the.state.messagesList: ", this.state.messagesList);  
@@ -92,7 +99,8 @@ export default class App extends React.Component {
     if (this.state.validValue === true) {
       await addDoc(collectionData, {
         said: said,
-        test: true
+        test: true,
+        timePosted: this.timeStamp()
       });
     }
     this.state.validValue = false;
@@ -112,12 +120,18 @@ export default class App extends React.Component {
     return Math.floor(Math.random() * max);
   }
 
+  timeStamp = () => {
+    const timeStamp = new Date();
+    return timeStamp
+  }
+
   phrases = async () => {
     const robotStatement = this.state.robotSaid[this.getRandomInt(3)]
     const collectionData = collection(db, "messages");
     await addDoc(collectionData, {
       robotStatement: robotStatement,
-      test: false
+      test: false,
+      timePosted: this.timeStamp(0)
     });
   }
 
