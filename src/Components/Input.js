@@ -43,7 +43,7 @@ export default class InputBox extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <input placeholder="Type Here" id="input" className="form-control" 
+                    <input placeholder="Type Here to Chat" id="input" className="form-control" 
                     value={this.state.newText} onChange={this.handleChange} />
                     <button type="submit" className="btn">Send</button>
                 </div>
