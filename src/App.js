@@ -68,9 +68,9 @@ export default class App extends React.Component {
     });
  
     //The section on the bottom sorts the timestamps from every messages so that they are displayed by the newest minutes on the lowest part of the chatBox
-
     const sortedMessages = allmessages.sort((a, b) => {
-      return b.timePosted - a.timePosted;
+      const results = a.timePosted - b.timePosted;
+      return results
     });
     this.setState({
       messagesList: sortedMessages,
@@ -100,23 +100,16 @@ export default class App extends React.Component {
 
   newDoc = async (said) => {
     const collectionData = collection(db, "messages");
-    const date = new Date();
-    const dateFormat = s;
-    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
-    const [hour, minutes, seconds] = [date.getHours(), date.getMinutes(), date.getSeconds()];
-    const newDate = `${month} ${day} ${year} ${hour} ${minutes} ${seconds}`;
+    const date = new Date().getTime() / 1000;
+    const robotDate = date + 1;
     const testValue = true;
     const robotStatement = this.state.robotSaid[getRandomInt(7)];
     const robotData = {
       robotStatement: robotStatement,
       test: false,
-      timePosted: new Date(),
+      timePosted: robotDate,
     };
-    const updateState = () => {
-      this.ReceivedMessages();
-    };
-
-    console.log(newDate);
+    const updateState = () => { this.ReceivedMessages(); };
     
     function getRandomInt(max) {
       return Math.floor(Math.random() * max);
@@ -127,7 +120,7 @@ export default class App extends React.Component {
       await addDoc(collectionData, {
         said: said,
         test: testValue,
-        timePosted: new Date(),
+        timePosted: date,
       });
     }
     this.state.validValue = false;
@@ -143,11 +136,6 @@ export default class App extends React.Component {
     const messagesDoc = doc(messagesDB, id);
     await deleteDoc(messagesDoc);
     this.ReceivedMessages();
-  };
-
-  timeStamp = () => {
-    const timeStamp = new Date();
-    return timeStamp;
   };
 
   render() {
